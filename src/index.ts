@@ -1,6 +1,6 @@
 import { Socket as WebSocketClient } from '@iobroker/ws-server';
-import { SocketIO } from './lib/socketIO.js';
-import { Socket as IOSocketClass } from './lib/socket.js';
+import { SocketIO } from './lib/socketIO';
+import { Socket as IOSocketClass } from './lib/socket';
 
 /**
  * The exported module containing classes to initialize and utilize the

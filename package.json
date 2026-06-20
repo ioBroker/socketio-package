@@ -22,7 +22,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@iobroker/socket-classes": "^2.3.1",
+    "@iobroker/socket-classes": "^2.3.2",
     "@iobroker/webserver": "^1.4.0",
     "cookie-parser": "^1.4.7",
     "express": "^5.2.1",

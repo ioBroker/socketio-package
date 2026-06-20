@@ -10,7 +10,7 @@ import {
 } from '@iobroker/socket-classes';
 import type { SocketIO as WebSocketServer } from '@iobroker/ws-server';
 
-import { type Server, SocketIO } from './socketIO.js';
+import { type Server, SocketIO } from './socketIO';
 
 /**
  * Socket wrapper class for ioBroker web server.

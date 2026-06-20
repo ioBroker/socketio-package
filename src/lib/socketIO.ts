@@ -270,7 +270,9 @@ export class SocketIO extends SocketCommon {
             wait = false;
         }
 
-        !wait && callback('Cannot detect user');
+        if (!wait) {
+            callback('Cannot detect user');
+        }
     }
 
     /**
