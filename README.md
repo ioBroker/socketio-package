@@ -1,0 +1,77 @@
+# @iobroker/socketio-server
+
+This package is used by WEB applications and adapters to communicate with ioBroker using websockets and the `socket.io` protocol.
+
+**Important Note: Since v4.0 of this package pure Websockets are used exclusively! Socket.io is no longer implemented by the socket.io library, but simulated via pure WebSockets!**
+
+Users can use this package to connect their products to ioBroker via web sockets.
+Actually, this package could be used by echarts, vis and many other adapters to extract data from ioBroker.
+
+**If possible, please use [`@iobroker/ws-server`](https://github.com/ioBroker/ws-server-package) instead of this package.**
+
+By using of socket.io interface user should understand the [basics and concept](https://github.com/ioBroker/ioBroker) of the system.
+
+It is useful to read about the [structure of the objects](https://github.com/ioBroker/ioBroker/blob/master/doc/SCHEMA.md) too. 
+
+## Brief description of concept
+### Object
+Object is description of data point or group. The group could content other data points in this case it called channel.
+If a group consists of other channels, in this case it is called device. 
+
+Object is meta information that describes data point and could content: max/min value, unit, name,
+default value, type of value, information for adapter for communication (e.g., ip address) and so on.
+
+### State
+State is the actual value of the data point and presented by javascript object: 
+```js
+const state = {
+    val: VALUE, 
+    ack: ACKNOWLEDGED, 
+    ts: TIMESTAMP, // could be converted into time with "new Date(state.ts)" (In older version of js-controller - "new Date(state.ts * 1000)")
+    lc: TIMESTAMP_of_last_change, 
+    from: ADAPTER_NAME, 
+    q: QUALITY
+}
+```
+
+States change itself very frequently in compare to the objects. (Normally objects should be changed once by creation and that's all) 
+
+### Acknowledgment
+Every state has the attribute `ack`. It shows the direction of command. 
+- If ack=false, it means some other adapter wants to control (write) this variable, so that command will be executed (e.g., light will be switched on).
+- If ack=true, it means that the device informs about new value. (e.g., light was switched on manually or motion was detected)
+ 
+**Example**: we have some home automation adapter (HAA) that has one lamp connected under address `haa.0.lamp1`. 
+- Lamp can be switched on manually with physical switch or via Wi-Fi with the help of HAA. 
+- If vis wants to switch the lamp on via Wi-Fi, it should set the new value with `{value: true, ack: false}`. 
+- When the lamp is switched on it is normally informing HAA about new state and the value should be immediately overwritten with `{value: true, ack: true}`.
+- If the lamp is switched off manually via physical switch it informs HAA about new state with `{value: false, ack: true}`. 
+
+### Quality
+Every data point has an attribute `q` - *quality*. 
+
+## Usage
+You can find the description of every supported method [here](https://github.com/ioBroker/ioBroker.socket-classes#web-methods).
+
+It is suggested to use [socket class](https://github.com/ioBroker/socket-client) for communication.
+
+## Tuning Web-Sockets
+On some web-sockets clients, there is a performance problem with communication.
+Sometimes this issue is due to the fallback of socket.io communication on a long polling mechanism.
+You can set the option *Force Web-Sockets* to force using only web-sockets transport.
+
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+
+## Changelog
+### **WORK IN PROGRESS**
+* (@GermanBluefox) Initial commit. Extracted from ioBroker.socketio adapter.
+* (@GermanBluefox) minimal Node JS version is 20
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2014-2026 @GermanBluefox <dogafox@gmail.com>
