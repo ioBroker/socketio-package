@@ -66,7 +66,7 @@ You can set the option *Force Web-Sockets* to force using only web-sockets trans
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 8.0.4 (2026-06-20)
 * (@GermanBluefox) Initial commit. Extracted from ioBroker.socketio adapter.
 * (@GermanBluefox) A minimal Node.js version is 20
 
