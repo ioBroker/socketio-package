@@ -6,6 +6,9 @@
     "name": "bluefox",
     "email": "dogafox@gmail.com"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://github.com/ioBroker/socketio-package",
   "keywords": [
     "ioBroker",
