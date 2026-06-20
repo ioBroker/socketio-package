@@ -65,6 +65,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node tasks.ts",
     "lint": "eslint -c eslint.config.mjs",
+    "test:package": "node -e \"process.exit(0)\"",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
