@@ -17,7 +17,7 @@ export default [
             'build/*',
             'eslint.config.mjs',
             'prettier.config.mjs',
-            'tasks.ts',
+            'tasks.mts',
             'node_modules/*'
         ],
     },
