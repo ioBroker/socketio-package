@@ -21,7 +21,6 @@
   "engines": {
     "node": ">=20"
   },
-  "type": "module",
   "dependencies": {
     "@iobroker/socket-classes": "^2.3.1",
     "@iobroker/webserver": "^1.4.0",
@@ -63,7 +62,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node tasks.ts",
+    "build": "tsc -p tsconfig.build.json && node tasks.mts",
     "lint": "eslint -c eslint.config.mjs",
     "test:package": "node -e \"process.exit(0)\"",
     "release": "release-script",
