@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@iobroker/socket-classes": "^2.3.6",
-    "@iobroker/webserver": "^1.4.0",
+    "@iobroker/webserver": "^2.0.1",
     "cookie-parser": "^1.4.7",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
