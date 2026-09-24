@@ -10,14 +10,17 @@ Prefer [`@iobroker/ws-server`](https://github.com/ioBroker/ws-server-package) fo
 
 ## Commands
 
-- **Build:** `npm run build` — runs `tsc -p tsconfig.build.json` then `node tasks.ts`. Output goes to `build/`.
+- **Build:** `npm run build` — runs `tsc -p tsconfig.build.json` then `node tasks.mts`. Output goes to `build/`.
 - **Lint:** `npm run lint` — ESLint with `@iobroker/eslint-config`.
 - **Type-check only:** `npx tsc -p tsconfig.json` — `tsconfig.json` is `noEmit` and also type-checks JS; `tsconfig.build.json` is the one that actually emits.
+- **Test:** `npm test` — mocha against the **compiled** library in `build/`, so run `npm run build` first.
 - **Release:** `npm run release-patch` / `release-minor` / `release-major` (via `@alcalzone/release-script`).
 
-There is **no test suite** in this repo. CI (`.github/workflows/test-and-release.yml`) runs lint only, and deploys to npm on a `v*` tag.
+The tests are plain CommonJS in `test/`: `index.js` (public API and package exports), `socket.js` (the `IOSocketClass` facade), `socketIO.js` (unit tests for the protocol class) and `integration.js` (a real server with a real `socket.io-client`); `test/lib/helpers.js` holds the adapter/store/socket doubles and `test/lib/client.js` wraps the client. `iobroker.js-controller` is a dev dependency only because `@iobroker/socket-classes` pulls in `@iobroker/adapter-core`, which exits with `Cannot find js-controller` if it cannot resolve it (installing it also creates the gitignored `controller.js` and `iobroker-data/`).
 
-`tasks.ts` is a build post-step: it copies the browser bundle `socket.io-client/dist/socket.io.js` into `build/lib/socket.io.js` so the package can serve it to clients via the `./socket.io.js` export. If you change the build output layout, keep that copy working.
+CI (`.github/workflows/test-and-release.yml`) lints, runs the tests on Node 22/24/26, and deploys to npm on a `v*` tag.
+
+`tasks.mts` is a build post-step: it copies the browser bundle `socket.io-client/dist/socket.io.js` into `build/lib/socket.io.js` so the package can serve it to clients via the `./socket.io.js` export. If you change the build output layout, keep that copy working.
 
 ## Architecture
 
@@ -42,7 +45,7 @@ Three source files, layered thinnest-on-top:
 
 ## Conventions
 
-- ESM only (`"type": "module"`); use `.js` extensions in relative imports (`Node16` module resolution).
-- Targets Node `>=20`; TypeScript `~6.0.3`, `strict` mode.
+- **CommonJS output** — `package.json` has no `"type": "module"`, so `Node16` module resolution emits CJS (`require`/`exports`) and relative imports carry **no** `.js` extension (`./lib/socketIO`). The `path.resolve` workaround in `start()` depends on `require.resolve` and `__dirname`, so do not switch the output to ESM without replacing it.
+- Targets Node `>=22.19.0`; TypeScript `~6.0.3`, `strict` mode.
 - Every method carries a JSDoc block — match that style when adding code.
-- ESLint config disables `jsdoc/require-jsdoc` and `jsdoc/require-param`; `tasks.ts` and the generated `src/lib/socket.io.js` are excluded from linting/compilation.
+- ESLint config disables `jsdoc/require-jsdoc` and `jsdoc/require-param`; `tasks.mts` and the generated `src/lib/socket.io.js` are excluded from linting/compilation.

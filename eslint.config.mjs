@@ -13,8 +13,13 @@ export default [
         },
     },
     {
+        // `controller.js` and `iobroker-data` are created by the "iobroker.js-controller" dev dependency
         ignores: [
             'build/*',
+            'test/*',
+            'test/lib/*',
+            'controller.js',
+            'iobroker-data/*',
             'eslint.config.mjs',
             'prettier.config.mjs',
             'tasks.mts',

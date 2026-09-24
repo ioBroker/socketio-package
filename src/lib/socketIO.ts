@@ -471,12 +471,17 @@ export class SocketIO extends SocketCommon {
             socketOptions.allowEIO3 = true;
         }
 
-        // for v4
+        // Name the session cookie of the transport itself (not `connect.sid`).
+        // Both generations read `name` from this object and hand the object itself to
+        // `cookie.serialize()` as its options: socket.io 4.x/engine.io 6 does it always, socket.io
+        // 2.x/engine.io 3 whenever `cookie` is an object. The flat `cookieName`/`cookieHttpOnly`/
+        // `cookiePath` spelling of the type belongs to the *top level* of the engine.io 3 options,
+        // so nesting it here would send a cookie literally named "undefined".
         socketOptions.cookie = {
-            cookieName: 'io',
-            cookieHttpOnly: false,
-            cookiePath: '/',
-        };
+            name: 'io',
+            httpOnly: false,
+            path: '/',
+        } as unknown as SocketIoOptions['cookie'];
 
         super.start(server, socketClass, authOptions, socketOptions);
 
@@ -508,7 +513,9 @@ export class SocketIO extends SocketCommon {
      */
     publishAll(type: SocketSubscribeTypes, id: string, obj: ioBroker.Object | ioBroker.State | null | undefined): void {
         if (id === undefined) {
-            console.log('Problem');
+            // an undefined id would be offered to every subscription pattern, so do not publish it
+            this.adapter.log.warn('publishAll called with undefined id');
+            return;
         }
 
         if (this.server?.sockets) {
@@ -534,7 +541,9 @@ export class SocketIO extends SocketCommon {
      */
     publishFileAll(id: string, fileName: string, size: number | null): void {
         if (id === undefined) {
-            console.log('Problem');
+            // an undefined id would be offered to every subscription pattern, so do not publish it
+            this.adapter.log.warn('publishFileAll called with undefined id');
+            return;
         }
 
         if (this.server?.sockets) {

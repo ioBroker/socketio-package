@@ -2,6 +2,12 @@ node_modules
 .idea
 iob_npm.done
 
+# created by the "iobroker.js-controller" dev dependency the tests need
+/iobroker-data
+/controller.js
+/iob
+/iobroker
+
 #ignore .commitinfo created by ioBroker release script
 .commitinfo
 /.claude/settings.local.json
