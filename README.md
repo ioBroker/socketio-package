@@ -66,7 +66,7 @@ You can set the option *Force Web-Sockets* to force using only web-sockets trans
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 8.1.1 (2026-09-24)
 * (@GermanBluefox) Fixed the name of the socket.io transport cookie
 * (@GermanBluefox) An undefined ID is no longer published to all clients, but logged as a warning
 * (@GermanBluefox) Added tests

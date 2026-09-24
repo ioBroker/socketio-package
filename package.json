@@ -1,6 +1,6 @@
 {
   "name": "@iobroker/socketio-server",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "description": "This package allows to communicate different web applications with ioBroker via socket.io library.",
   "author": {
     "name": "bluefox",
