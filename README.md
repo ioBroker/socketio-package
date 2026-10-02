@@ -66,6 +66,13 @@ You can set the option *Force Web-Sockets* to force using only web-sockets trans
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+- (@GermanBluefox) Fixed: a websocket whose access token was not accepted stayed open without a single
+  command handler, so the client could not announce the token it had just fetched and waited for an answer
+  that could not come until its own timeout closed the connection. With authentication enabled, every page
+  behind this server took seconds to come up after the access token had expired and sometimes did not come
+  up at all. The fix is in `@iobroker/socket-classes`, whose lowest accepted version is raised to 2.6.2
+
 ### 8.1.1 (2026-09-24)
 * (@GermanBluefox) Fixed the name of the socket.io transport cookie
 * (@GermanBluefox) An undefined ID is no longer published to all clients, but logged as a warning
