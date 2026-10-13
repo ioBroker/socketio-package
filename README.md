@@ -66,7 +66,7 @@ You can set the option *Force Web-Sockets* to force using only web-sockets trans
 -->
 
 ## Changelog
-### **WORK IN PROGRESS**
+### 8.1.3 (2026-10-13)
 - (@GermanBluefox) `start()` throws a clear error if socket.io 3.x/4.x is given instead of 2.x, instead of crashing later with "socketClass is not a constructor" (see ioBroker.socketio#302)
 
 ### 8.1.2 (2026-10-02)
