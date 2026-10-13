@@ -66,6 +66,9 @@ You can set the option *Force Web-Sockets* to force using only web-sockets trans
 -->
 
 ## Changelog
+### **WORK IN PROGRESS**
+- (@GermanBluefox) `start()` throws a clear error if socket.io 3.x/4.x is given instead of 2.x, instead of crashing later with "socketClass is not a constructor" (see ioBroker.socketio#302)
+
 ### 8.1.2 (2026-10-02)
 - (@GermanBluefox) Fixed: a websocket whose access token was not accepted stayed open without a single
   command handler, so the client could not announce the token it had just fetched and waited for an answer

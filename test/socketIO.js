@@ -897,6 +897,19 @@ describe('SocketIO', () => {
             throws(() => io.start(undefined), /Server cannot be empty/);
         });
 
+        it('refuses socket.io 3.x/4.x with a clear message (socketio#302)', () => {
+            // a hoisted socket.io 4.x hands over an arrow factory with `.Server` and without `.listen`,
+            // which crashed later with "socketClass is not a constructor"
+            const io = new SocketIO({ auth: false, port: 1234 }, createMockAdapter());
+            const factory = () => createFakeSocketServer();
+            factory.Server = function Server() {};
+
+            throws(
+                () => io.start({}, factory, { store: createMemoryStore(), secret: SECRET }),
+                /socket\.io 2\.x is required/,
+            );
+        });
+
         it('hands the ping settings of the caller to socket.io', () => {
             const { options } = startWithFakeClass({}, { pingInterval: 120000, pingTimeout: 30000 });
 

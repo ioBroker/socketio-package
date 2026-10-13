@@ -419,6 +419,16 @@ export class SocketIO extends SocketCommon {
         },
         socketOptions?: SocketIoOptions,
     ): void {
+        // Only socket.io 2.x is supported. The module export of socket.io 3.x/4.x is a factory with `.Server`
+        // and without `.listen`. Getting it means that the caller resolved a wrong socket.io from a hoisted
+        // node_modules (see ioBroker.socketio#302), and socket.io 2.x clients could not connect to it anyway.
+        const socketModule = socketClass as unknown as { listen?: unknown; Server?: unknown } | undefined;
+        if (socketModule && typeof socketModule.listen !== 'function' && typeof socketModule.Server === 'function') {
+            throw new Error(
+                'socket.io 2.x is required, but socket.io 3.x/4.x was given. Please reinstall the adapter, so that its own socket.io 2.x is used',
+            );
+        }
+
         // is required only for socket.io@2.x
         //
         // WORKAROUND for socket.io issue #3555 (https://github.com/socketio/socket.io/issues/3555)
